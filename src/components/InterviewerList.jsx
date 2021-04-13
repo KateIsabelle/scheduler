@@ -14,15 +14,15 @@ import classNames from "classnames";
 // ];
 
 export default function InterviewerList(props) {
-  const { interviewers, interviewer, setInterviewer } = props;
+  const { interviewers, value, onChange } = props;
 
   const list = interviewers.map(i =>
     <InterviewerListItem 
     key={i.id}
     name={i.name} 
     avatar={i.avatar}
-    setInterviewer={event => setInterviewer(i.id)}  
-    selected={i.id === interviewer}
+    onChange={event => onChange(i.id)}  
+    selected={i.id === value}
   />)
 
   return (
