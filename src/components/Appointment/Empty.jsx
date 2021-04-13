@@ -2,7 +2,7 @@ import React from "react";
 
 import classNames from "classnames";
 
-export default function Header(props) {
+export default function Empty(props) {
   const { onAdd } = props;
 
   return (
