@@ -21,7 +21,7 @@ export default function InterviewerList(props) {
     key={i.id}
     name={i.name} 
     avatar={i.avatar}
-    setInterview={event => onChange(i.id)}  
+    setInterviewer={() => onChange(i.id)}  
     selected={i.id === value}
   />)
 

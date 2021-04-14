@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import InterviewerList from "../InterviewerList";
 
 export default function Form(props) {
-  const { name, interviewer, interviewers, onSave, onCancel, setInterviewer } = props;
+  const { interviewers, onSave, onCancel } = props;
+
+  const [name, setName] = useState(props.name || "")
+
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+
+  // const handleChange = event => {
+  //   const value = event.target.value
+  //   const nameOfTheKeyInTheFormObj = event.target.name
+  //   const newFormData = { ...formData }
+  //   newFormData[nameOfTheKeyInTheFormObj] = value
+  //   setFormData(newFormData)
+
+  //   // setFormData({...formData, [nameOfTheKeyInTheFormObj]:value})
+  // }
 
   return (
 
@@ -12,11 +26,11 @@ export default function Form(props) {
       <form autoComplete="off">
         <input
           className="appointment__create-input text--semi-bold"
-          name={name}
+          name="name"
           type="text"
           placeholder="Enter Student Name"
           value={name}
-          onChange={event => setInterviewer(interviewer.id)}  
+          onChange={(event) => setName(event.target.value)} 
         />
       </form>
       <InterviewerList interviewers={interviewers} value={interviewer} onChange={setInterviewer} />
@@ -32,3 +46,5 @@ export default function Form(props) {
   )
 
 }
+
+// onChange={event => setInterviewer(interviewer.id)}  
