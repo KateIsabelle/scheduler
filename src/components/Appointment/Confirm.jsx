@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../Button"
-import classNames from "classnames";
+// import classNames from "classnames";
 
 export default function Confirm(props) {
   const { message, onConfirm, onCancel } = props;

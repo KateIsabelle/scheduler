@@ -2,13 +2,31 @@ import React, { useState } from "react";
 import Button from "../Button";
 import InterviewerList from "../InterviewerList";
 
+//helper function 
+
 export default function Form(props) {
   const { interviewers, onSave, onCancel } = props;
-
+  
   const [name, setName] = useState(props.name || "")
-
+  
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
+  //cancel button onClick:
+  const reset = () => {
+    setName("")
+    setInterviewer(null)
+  }
+
+  const cancel = () => {
+    reset()
+    onCancel()
+  }
+
+  // const save = () => {
+  //   // setName(name)
+  //   // setInterviewer(interviewer)
+  //   onSave()
+  // }
   // const handleChange = event => {
   //   const value = event.target.value
   //   const nameOfTheKeyInTheFormObj = event.target.name
@@ -23,7 +41,7 @@ export default function Form(props) {
 
     <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
-      <form autoComplete="off">
+      <form autoComplete="off" onSubmit={event => event.preventDefault()}>
         <input
           className="appointment__create-input text--semi-bold"
           name="name"
@@ -37,7 +55,7 @@ export default function Form(props) {
     </section>
     <section className="appointment__card-right">
       <section className="appointment__actions">
-        <Button danger onClick={onCancel}>Cancel</Button>
+        <Button danger onClick={cancel}>Cancel</Button>
         <Button confirm onClick={onSave}>Save</Button>
       </section>
     </section>
