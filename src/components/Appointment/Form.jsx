@@ -8,7 +8,6 @@ export default function Form(props) {
   const { interviewers, onSave, onCancel } = props;
   
   const [name, setName] = useState(props.name || "")
-  
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
   //cancel button onClick:
@@ -21,21 +20,6 @@ export default function Form(props) {
     reset()
     onCancel()
   }
-
-  // const save = () => {
-  //   // setName(name)
-  //   // setInterviewer(interviewer)
-  //   onSave()
-  // }
-  // const handleChange = event => {
-  //   const value = event.target.value
-  //   const nameOfTheKeyInTheFormObj = event.target.name
-  //   const newFormData = { ...formData }
-  //   newFormData[nameOfTheKeyInTheFormObj] = value
-  //   setFormData(newFormData)
-
-  //   // setFormData({...formData, [nameOfTheKeyInTheFormObj]:value})
-  // }
 
   return (
 
@@ -64,5 +48,3 @@ export default function Form(props) {
   )
 
 }
-
-// onChange={event => setInterviewer(interviewer.id)}  
