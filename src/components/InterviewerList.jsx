@@ -2,7 +2,7 @@ import React from "react";
 import InterviewerListItem from "components/InterviewerListItem"
 import "components/InterviewerList.scss";
 
-import classNames from "classnames";
+// import classNames from "classnames";
 
 
 // const interviewers = [
@@ -21,7 +21,7 @@ export default function InterviewerList(props) {
     key={i.id}
     name={i.name} 
     avatar={i.avatar}
-    onChange={event => onChange(i.id)}  
+    setInterview={event => onChange(i.id)}  
     selected={i.id === value}
   />)
 
