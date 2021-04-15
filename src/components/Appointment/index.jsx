@@ -31,7 +31,7 @@ export default function Appointment(props) {
         <Form 
         interviewers={[]}
         onSave={() => console.log("form on save")} 
-        onCancel={() => console.log("form on cancel")} />
+        onCancel={() => back(EMPTY)} />
       )}
 
     </article>
