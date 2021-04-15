@@ -6,82 +6,30 @@ import DayList from "./DayList";
 import Appointment from "./Appointment/index";
 import { getAppointmentsForDay } from "../../src/helpers/selectors";
 
-
-// sample data
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 3,
-//     time: "3pm",
-//     interview: {
-//       student: "Kate Davis",
-//       interviewer: {
-//         id: 5,
-//         name: "Sven Jones",
-//         avatar: "https://i.imgur.com/twYrpay.jpg",
-//       }
-//     }
-//   },
-//   {
-//     id: 4,
-//     time: "4pm",
-//     interview: {
-//       student: "Paul Ludd",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 5,
-//     time: "5pm",
-//   }
-// ];
-
-
+/// application component:
 export default function Application(props) {
-
+  
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {}
   });
+
   const setDay = day => setState(prev => ({ ...prev, day }));
- 
-  let dailyAppointments = getAppointmentsForDay(state, state.day)
-
+  
   useEffect(() => {
-
+    //api requests for getting days/appointments/interviewers data
     Promise.all([
-      axios.get("/api/days"), //array of objects [ {0: {id: 1, name: "Monday", appointments: Array(5), interviewers: Array(5), spots: 3}}...]
-      axios.get("/api/appointments"), //object of objects { 1: {id: 1, time: "12pm", interview: {…} ... }
+      axios.get("/api/days"), 
+      axios.get("/api/appointments"), 
       axios.get("/api/interviewers")
-    ])
-      .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
-        // console.log("Days Response: ", daysResponse.data);
-        // console.log("Appts Response: ", appointmentsResponse.data);
-        // console.log("Interviewers Response: ", interviewersResponse.data);
-
-        setState(prev => ({...prev, days: daysResponse.data, appointments: appointmentsResponse.data, interviewers: interviewersResponse.data }));
-      });
+    ]) // destructure responses and update state:
+    .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
+      setState(prev => ({...prev, days: daysResponse.data, appointments: appointmentsResponse.data, interviewers: interviewersResponse.data }));
+    });
   }, [])
+  //getAppointmentsForDay returns an array of appointment objects for matching day
+  const dailyAppointments = getAppointmentsForDay(state, state.day)
 
   const apptList = dailyAppointments.map(appt =>
     <Appointment
