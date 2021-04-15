@@ -4,6 +4,8 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment/index";
+import { getAppointmentsForDay } from "../../src/helpers/selectors";
+
 
 // sample data
 // const appointments = [
@@ -55,33 +57,37 @@ import Appointment from "./Appointment/index";
 
 
 export default function Application(props) {
-  
+
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {}
   });
   const setDay = day => setState(prev => ({ ...prev, day }));
-  
-  const setDays = (days) => {
-    setState(prev => ({ ...prev, days }))
-  }
-
-  const dailyAppointments = [];
+ 
+  let dailyAppointments = getAppointmentsForDay(state, state.day)
 
   useEffect(() => {
-    
-    axios.get('/api/days').then(response => {
-      console.log(response.data);
-      setDays([...response.data])
-    });
+
+    Promise.all([
+      axios.get("/api/days"), //array of objects [ {0: {id: 1, name: "Monday", appointments: Array(5), interviewers: Array(5), spots: 3}}...]
+      axios.get("/api/appointments"), //object of objects { 1: {id: 1, time: "12pm", interview: {…} ... }
+      axios.get("/api/interviewers")
+    ])
+      .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
+        // console.log("Days Response: ", daysResponse.data);
+        // console.log("Appts Response: ", appointmentsResponse.data);
+        // console.log("Interviewers Response: ", interviewersResponse.data);
+
+        setState(prev => ({...prev, days: daysResponse.data, appointments: appointmentsResponse.data, interviewers: interviewersResponse.data }));
+      });
   }, [])
 
   const apptList = dailyAppointments.map(appt =>
-    <Appointment 
-    key={appt.id}
-    {...appt} 
-  />)
+    <Appointment
+      key={appt.id}
+      {...appt}
+    />)
 
   return (
     <main className="layout">
@@ -106,8 +112,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        { apptList }
-        <Appointment key="last" time="6pm"/>
+        {apptList}
+        <Appointment key="last" time="6pm" />
       </section>
     </main>
   );
