@@ -1,4 +1,3 @@
-
 export function getAppointmentsForDay(state, day) {
 
   //find the object in our state.days array who's name matches the provided day 
@@ -8,6 +7,7 @@ export function getAppointmentsForDay(state, day) {
   return (matchingDay.length === 0) ? [] : matchingDay[0].appointments.map(apptId => state.appointments[apptId]);
 }
 
+//update the value of interview object's 'interviewer' key to be an object of interviewer data rather than just their id
 export function getInterview(state, interview) {
   //if there is an interview object passed, return object with student: name
   //and interview: { interviewer object } containing a shallow copy of this interviewer object (with matching interviewer key) from state
