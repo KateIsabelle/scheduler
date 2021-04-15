@@ -12,9 +12,9 @@ export function getInterview(state, interview) {
   //if there is an interview object passed, return object with student: name
   //and interview: { interviewer object } containing a shallow copy of this interviewer object (with matching interviewer key) from state
   return interview ? {
-                        student: interview.student,
-                        interviewer: {...state.interviewers[interview.interviewer]}
-                        } 
+    student: interview.student,
+    interviewer: { ...state.interviewers[interview.interviewer] }
+  }
     //if no interview, return null
-                      : null;
+    : null;
 }
