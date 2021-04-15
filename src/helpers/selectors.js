@@ -18,3 +18,10 @@ export function getInterview(state, interview) {
     //if no interview, return null
     : null;
 }
+
+export function getInterviewersForDay(state, day) {
+  //follows same pattern as getAppointmentsForDay
+  const matchingDay = state.days.filter(d => d.name === day);
+  return (matchingDay.length === 0) ? [] : matchingDay[0].interviewers.map(interviewerId => state.interviewers[interviewerId]);
+
+}
