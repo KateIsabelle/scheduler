@@ -12,6 +12,7 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
+    interviewers: {},
     appointments: {}
   });
 
@@ -28,6 +29,9 @@ export default function Application(props) {
       setState(prev => ({...prev, days: daysResponse.data, appointments: appointmentsResponse.data, interviewers: interviewersResponse.data }));
     });
   }, [])
+  console.log("state.days", state.days)
+  console.log("state.interviewers", state.interviewers)
+  console.log("state.appointments", state.appointments)
   //getAppointmentsForDay returns an array of appointment objects for matching day
   const dailyAppointments = getAppointmentsForDay(state, state.day)
 
