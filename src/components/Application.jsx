@@ -8,7 +8,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../.
 
 /// application component:
 export default function Application(props) {
-  
+
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -17,35 +17,43 @@ export default function Application(props) {
   });
 
   const setDay = day => setState(prev => ({ ...prev, day }));
-  
+
   useEffect(() => {
     //api requests for getting days/appointments/interviewers data
     Promise.all([
-      axios.get("/api/days"), 
-      axios.get("/api/appointments"), 
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
       axios.get("/api/interviewers")
     ]) // destructure responses and update state:
-    .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
-      setState(prev => ({...prev, days: daysResponse.data, appointments: appointmentsResponse.data, interviewers: interviewersResponse.data }));
-    });
+      .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
+        setState(prev => ({
+          ...prev, days: daysResponse.data,
+          appointments: appointmentsResponse.data,
+          interviewers: interviewersResponse.data
+        }));
+      });
   }, [])
-  // console.log("state.days", state.days)
-  // console.log("state.interviewers", state.interviewers)
-  // console.log("state.appointments", state.appointments)
 
   //getAppointmentsForDay returns an array of appointment objects for matching day
   const dailyAppointments = getAppointmentsForDay(state, state.day)
+  //getInterviewersForDay retuns an array of interviewer objects for matching day
   const interviewers = getInterviewersForDay(state, state.day)
   
+  //allows us to change the local state when we book an interview
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
+
   const apptList = dailyAppointments.map(appt => {
     const interview = getInterview(state, appt.interview);
     return <Appointment
-    key={appt.id}
-    id={appt.id}
-    time={appt.time}
-    interview={interview}
-    interviewers={interviewers}
-    />  
+      key={appt.id}
+      id={appt.id}
+      time={appt.time}
+      interview={interview}
+      interviewers={interviewers}
+      bookInterview={bookInterview}
+    />
   })
 
   return (
@@ -71,7 +79,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-      
+
         {apptList}
 
         <Appointment key="last" time="6pm" />
