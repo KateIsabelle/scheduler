@@ -15,7 +15,7 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 
 export default function Appointment(props) {
-  const { time, interview, interviewers, bookInterview } = props;
+  const { time, interview, interviewers, bookInterview, cancelInterview } = props;
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
   function save(name, interviewer) {

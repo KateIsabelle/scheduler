@@ -59,6 +59,25 @@ export default function Application(props) {
     }))
   }
 
+  //
+  function cancelInterview(id) {
+  //use appointment id to find the right appointment slot and set it's interview data to null
+  const appointment = {
+    ...state.appointments[id],
+    interview: null
+  };
+  const appointments = {
+    ...state.appointments,
+    [id]: appointment
+  };
+    return axios.delete(`api/appointments/${id}`)
+    .then(() => setState({
+      ...state,
+      appointments
+    
+    }))
+  }
+
   const apptList = dailyAppointments.map(appt => {
     const interview = getInterview(state, appt.interview);
     return <Appointment
@@ -68,6 +87,7 @@ export default function Application(props) {
       interview={interview}
       interviewers={interviewers}
       bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
     />
   })
 
