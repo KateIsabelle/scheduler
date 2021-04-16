@@ -74,8 +74,9 @@ export default function Application(props) {
     .then(() => setState({
       ...state,
       appointments
-    
-    }))
+    }) 
+    )
+
   }
 
   const apptList = dailyAppointments.map(appt => {
