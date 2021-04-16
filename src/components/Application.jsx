@@ -55,6 +55,11 @@ export default function Application(props) {
       ...state,
       appointments
     });
+    axios.put(`api/appointments/${id}`, appointment)
+    .then(() => setState({
+      ...state,
+      appointments
+    }))
   }
 
   const apptList = dailyAppointments.map(appt => {
