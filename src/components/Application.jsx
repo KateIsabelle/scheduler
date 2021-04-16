@@ -27,7 +27,8 @@ export default function Application(props) {
     ]) // destructure responses and update state:
       .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
         setState(prev => ({
-          ...prev, days: daysResponse.data,
+          ...prev, 
+          days: daysResponse.data,
           appointments: appointmentsResponse.data,
           interviewers: interviewersResponse.data
         }));
@@ -38,10 +39,22 @@ export default function Application(props) {
   const dailyAppointments = getAppointmentsForDay(state, state.day)
   //getInterviewersForDay retuns an array of interviewer objects for matching day
   const interviewers = getInterviewersForDay(state, state.day)
-  
+
   //allows us to change the local state when we book an interview
   function bookInterview(id, interview) {
     console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({
+      ...state,
+      appointments
+    });
   }
 
   const apptList = dailyAppointments.map(appt => {
