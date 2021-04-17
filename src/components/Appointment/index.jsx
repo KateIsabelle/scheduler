@@ -16,7 +16,8 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
-const CONFIRM = "CONFIRM"
+const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
 
 export default function Appointment(props) {
   const { time, interview, interviewers, bookInterview, cancelInterview } = props;
@@ -33,13 +34,15 @@ export default function Appointment(props) {
 
   }
 
+  //delete button on appointment show transitions to confirm component
+  function del() {
+    transition(CONFIRM)
+  }
+  //confirm delete cancels interview in remote and local state and transitions to empty
   function confDelete() {
     transition(DELETING)
     cancelInterview(props.id)
       .then(() => transition(EMPTY))
-  }
-  function del() {
-    transition(CONFIRM)
   }
 
   return (
@@ -51,10 +54,19 @@ export default function Appointment(props) {
           student={interview.student}
           interviewer={interview.interviewer.name}
           onDelete={del}
+          onEdit={() => transition(EDIT)}
         />
       )}
       {mode === CREATE && (
         <Form
+          interviewers={interviewers}
+          onSave={save}
+          onCancel={() => back(EMPTY)} />
+      )}
+      {mode === EDIT && (
+        <Form
+          name={interview.student}
+          interviewer={interview.interviewer && interview.interviewer.id}
           interviewers={interviewers}
           onSave={save}
           onCancel={() => back(EMPTY)} />
