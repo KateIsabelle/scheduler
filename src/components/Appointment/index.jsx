@@ -19,7 +19,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
-let ERROR = "ERROR";
+const ERROR_SAVE = "Could not save appointment";
+const ERROR_DELETE = "Could not cancel appointment";
 
 
 export default function Appointment(props) {
@@ -34,11 +35,7 @@ export default function Appointment(props) {
     transition(SAVING)
     bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch(err => {
-        ERROR = "Could not save appointment"
-        transition(ERROR)
-
-      })
+      .catch(err => transition(ERROR_SAVE, true))
 
   }
 
@@ -48,14 +45,10 @@ export default function Appointment(props) {
   }
   //confirm delete cancels interview in remote and local state and transitions to empty
   function confDelete() {
-    transition(DELETING)
+    transition(DELETING, true)
     cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch(err => {
-        ERROR = "Could not cancel appointment."
-        transition(ERROR)
-      }
-        )
+      .catch(err => transition(ERROR_DELETE, true))
   }
 
   return (
@@ -86,9 +79,14 @@ export default function Appointment(props) {
       )}
       {mode === SAVING && <Status message={SAVING} />}
       {mode === DELETING && <Status message={DELETING} />}
-      {mode === ERROR && (
+      {mode === ERROR_SAVE && (
         <Error
-          message={ERROR}
+          message={ERROR_SAVE}
+          onClose={() => back()} />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+          message={ERROR_DELETE}
           onClose={() => back()} />
       )}
       {mode === CONFIRM && (
