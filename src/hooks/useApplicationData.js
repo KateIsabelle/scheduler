@@ -30,9 +30,17 @@ export default function useApplicationData() {
       });
   }, [])
 
+  function updateSpots(change) {
+     //print a days array copy for updating spots
+     const days = [...state.days].map(day => ({ ...day }));
+     //find matching day object 
+     const matchDayObj = days.filter((day) => state.day === day.name)[0]
+     matchDayObj.spots = matchDayObj.spots + change
+     return days
+  }
 
   //allows us to change the local and remote state when we book an interview
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview) { 
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -41,13 +49,9 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-
-    //print a days array copy for updating spots
-    const days = [...state.days].map(day => ({ ...day }));
-    //find matching day object 
-    const matchDayObj = days.filter((day) => state.day === day.name)[0]
-    //decrement available spots
-    matchDayObj.spots--
+    const checkInterviewExists = state.appointments[id].interview
+    //if updating existing interview do not change spots, else (if creating new interview) remove one spot
+    const days = checkInterviewExists ? updateSpots(0) : updateSpots(-1)
 
     return axios.put(`api/appointments/${id}`, appointment)
       .then(() => setState({
@@ -67,12 +71,8 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    //print a days array copy for updating spots
-    const days = [...state.days].map(day => ({ ...day }));
-    //find matching day object 
-    const matchDayObj = days.filter((day) => state.day === day.name)[0]
-    //increment available spots
-    matchDayObj.spots++
+  
+    const days = updateSpots(1)
 
     return axios.delete(`api/appointments/${id}`)
       .then(() => setState({
