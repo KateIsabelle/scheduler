@@ -22,9 +22,9 @@ export default function Form(props) {
   }
 
   const save = () => {
-    if (interviewer && name) {
+    // if (interviewer && name) {
       onSave(name, interviewer)
-    }
+    // }
   }
 
   return (
