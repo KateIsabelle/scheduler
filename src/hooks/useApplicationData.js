@@ -74,24 +74,14 @@ const [state, dispatch] = useReducer(reducer, {
 
   //allows us to change the local and remote state when we book an interview
   function bookInterview(id, interview) { 
-    // const appointment = {
-    //   ...state.appointments[id],
-    //   interview: { ...interview }
-    // };
-    // const appointments = {
-    //   ...state.appointments,
-    //   [id]: appointment
-    // };
-    const checkInterviewExists = state.appointments[id].interview
-    //if updating existing interview do not change spots, else (if creating new interview) remove one spot
-    const days = checkInterviewExists ? updateSpots(0) : updateSpots(-1)
-
+    const appointment = {
+      ...state.appointments[id],
+      interview: interview ? { ...interview } : null
+    };
     return axios.put(`api/appointments/${id}`, appointment)
-      .then(() => setState({
-        ...state,
-        appointments,
-        days
-      }))
+      .then(() => {
+        dispatch({ type: SET_INTERVIEW, id, interview })
+      })
   }
 
   //use appointment id to find the right appointment slot and set it's interview data to null
