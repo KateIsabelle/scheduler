@@ -6,19 +6,6 @@ afterEach(cleanup);
 
 describe("Application", () => {
 
-xit("renders without crashing", () => {
-  render(<Application />);
-});
-
-// it("defaults to Monday and changes the schedule when a new day is selected", () => {
-//   const { getByText } = render(<Application />);
-
-//   return waitForElement(() => getByText("Monday"))
-//   .then(() => {
-//     fireEvent.click(getByText("Tuesday"));
-//     expect(getByText("Leopold Silvers")).toBeInTheDocument();
-//   });
-// });p
 it("changes the schedule when a new day is selected", async () => {
   const { getByText } = render(<Application />);
 
@@ -45,13 +32,12 @@ it("loads data, books an interview and reduces the spots remaining for the first
     target: { value: "Lydia Miller-Jones" }
   });
   fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
-  
   fireEvent.click(getByText(appointment, "Save"));
-  // debug()
+
   expect(getByText(appointment, /saving/i)).toBeInTheDocument();
-  // console.log(prettyDOM(appointment));
+
   await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
-  
+
   const day = getAllByTestId(container, "day").find(day =>
     queryByText(day, "Monday")
   );
