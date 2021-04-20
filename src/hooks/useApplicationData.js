@@ -94,7 +94,7 @@ const [state, dispatch] = useReducer(reducer, {
   //   appointments: {}
   // });
 
-  // const setDay = day => setState(prev => ({ ...prev, day }));
+  const setDay = day => dispatch( {type:SET_DAY, day} )
 
   useEffect(() => {
     //api requests for getting days/appointments/interviewers data
