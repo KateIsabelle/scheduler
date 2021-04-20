@@ -22,17 +22,3 @@ export default function useVisualMode(initialMode) {
 
   return { mode, transition, back }
 }
-
-// if (replace) {
-//   const newHistory = [...history]
-//   newHistory.pop()
-// } else {
-//   setHistory([...history, newMode])
-// }
-
-// if (history.length > 1) {
-//   const newHistory = [...history]
-//   newHistory.pop()
-//   setHistory(newHistory)
-//   setMode(newHistory[newHistory.length - 1])
-// }
