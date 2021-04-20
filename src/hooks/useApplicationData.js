@@ -38,7 +38,10 @@ function reducer(state, action) {
     }
   }
 
-  return state;
+  throw new Error(
+    `Tried to reduce with unsupported action type: ${action.type}`
+  );
+  
 }
 
 //separation of state and actions used to change state -- to be used in Application component
