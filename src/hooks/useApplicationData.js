@@ -80,29 +80,22 @@ const [state, dispatch] = useReducer(reducer, {
     };
     return axios.put(`api/appointments/${id}`, appointment)
       .then(() => {
-        dispatch({ type: SET_INTERVIEW, id, interview })
+        dispatch({ 
+          type: SET_INTERVIEW, 
+          id, 
+          interview })
       })
   }
 
   //use appointment id to find the right appointment slot and set it's interview data to null
   function cancelInterview(id) {
-    // const appointment = {
-    //   ...state.appointments[id],
-    //   interview: null
-    // };
-    // const appointments = {
-    //   ...state.appointments,
-    //   [id]: appointment
-    // };
-  
-    const days = updateSpots(1)
-
     return axios.delete(`api/appointments/${id}`)
-      .then(() => setState({
-        ...state,
-        appointments,
-        days
-      })
+      .then(() => {
+        dispatch({ 
+          type: SET_INTERVIEW, 
+          id, 
+          interview: null})
+      }
       )
 
   }
