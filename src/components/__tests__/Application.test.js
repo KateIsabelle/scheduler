@@ -36,7 +36,8 @@ it("loads data, books an interview and reduces the spots remaining for the first
   
   await waitForElement(() => getByText(container, "Archie Cohen"));
 
-  const appointment = getAllByTestId(container, "appointment")[0];
+  const appointments = getAllByTestId(container, "appointment");
+  const appointment = appointments[0];
   console.log(prettyDOM(appointment));
 
   fireEvent.click(getByAltText(appointment, "Add"));
