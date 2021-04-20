@@ -51,6 +51,11 @@ it("loads data, books an interview and reduces the spots remaining for the first
   expect(getByText(appointment, /saving/i)).toBeInTheDocument();
   // console.log(prettyDOM(appointment));
   await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
+  
+  const day = getAllByTestId(container, "day").find(day =>
+    queryByText(day, "Monday")
+  );
+  expect(getByText(day, /no spots remaining/i)).toBeInTheDocument();
 })
 
 });
