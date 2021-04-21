@@ -53,8 +53,6 @@ it("loads data, books an interview and reduces the spots remaining for the first
 })
 
 
-
-
 it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
   // 1. Render the Application.
   const { container } = render(<Application />);
@@ -86,6 +84,7 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
   );
   expect(getByText(day, /2 spots remaining/i)).toBeInTheDocument();
   });
+
 
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
   // 1. Render the Application.
@@ -125,10 +124,38 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
 
   it("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    const appointments = getAllByTestId(container, "appointment");
+    const appointment = appointments[0];
+    fireEvent.click(getByAltText(appointment, "Add"));
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" }
+      }) 
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    fireEvent.click(getByText(appointment, "Save"));
+    expect(getByText(appointment, /saving/i)).toBeInTheDocument();
+  
+    await waitForElement(() => getByText(appointment, /could not save appointment/i))
+    // fireEvent.click(getByAltText(appointment, "Close"))
+    //test going back to empty after close ?
   });
 
-  xit("shows the delete error when failing to delete an existing appointment", async () => {
+  it("shows the delete error when failing to delete an existing appointment", async () => {
     axios.delete.mockRejectedValueOnce();
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+    fireEvent.click(getByAltText(appointment, /delete/i));
+    expect(getByText(appointment, /are you sure you would like to delete/i)).toBeInTheDocument();
+    fireEvent.click(queryByText(appointment, "Confirm"))
+    expect(getByText(appointment, /deleting/i)).toBeInTheDocument()
+    
+    await waitForElement(() => getByText(appointment, /could not cancel appointment/i))
+    // fireEvent.click(getByAltText(appointment, "Close"))
+    //test going back to appointment after close ?
   });
 
 });
