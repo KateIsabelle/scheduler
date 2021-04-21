@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText, queryByText, queryByAltText } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText, queryByText, queryByAltText, act } from "@testing-library/react";
 import Application from "components/Application";
 
 afterEach(cleanup);
@@ -10,9 +10,7 @@ it("changes the schedule when a new day is selected", async () => {
   const { getByText } = render(<Application />);
 
   await waitForElement(() => getByText("Monday"));
-
-  fireEvent.click(getByText("Tuesday"));
-
+   fireEvent.click(getByText("Tuesday"));
   expect(getByText("Leopold Silvers")).toBeInTheDocument();
 });
 
@@ -25,13 +23,11 @@ it("loads data, books an interview and reduces the spots remaining for the first
   const appointment = appointments[0];
   
   fireEvent.click(getByAltText(appointment, "Add"));
-  
-  fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
     target: { value: "Lydia Miller-Jones" }
-  });
-  fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
-  fireEvent.click(getByText(appointment, "Save"));
-
+    }) 
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    fireEvent.click(getByText(appointment, "Save"));
   expect(getByText(appointment, /saving/i)).toBeInTheDocument();
 
   await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
@@ -62,13 +58,13 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
   expect(getByText(appointment, /are you sure you would like to delete/i)).toBeInTheDocument();
 
   //5. Click the "Confirm" button on the confirm element
-  fireEvent.click(queryByText(appointment, "Confirm"))
+    fireEvent.click(queryByText(appointment, "Confirm"))
 
   //6. Check that element with text "Deleting" is displayed
-  await expect(getByText(appointment, /deleting/i)).toBeInTheDocument()
+  expect(getByText(appointment, /deleting/i)).toBeInTheDocument()
 
-  //7. Wait until the element with "Add button is displayed"
-  waitForElement(() => queryByText(appointment, "Add"));
+  //7. Wait until the element with "Add" button is displayed
+  await waitForElement(() => getByAltText(appointment, "Add"));
 
   //8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining"
   const day = getAllByTestId(container, "day").find(day =>
