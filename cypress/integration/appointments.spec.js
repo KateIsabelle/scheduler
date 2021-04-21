@@ -10,8 +10,7 @@ describe("Appointments", () => {
     cy.contains("Monday");
    });
 
-  xit("should book an interview", () => {
-   
+  it("should book an interview", () => {
     cy.get("[alt=Add]")
       .first()
       .click()
@@ -23,38 +22,37 @@ describe("Appointments", () => {
       .click();
     cy.contains(".appointment__card--show", "Lydia Miller-Jones");
     cy.contains(".appointment__card--show", "Sylvia Palmer");
+  });
+    
 
-    /* Visits the root of our web server
-    Clicks on the "Add" button in the second appointment
-    Enters their name
-    Chooses an interviewer
-    Clicks the save button
-    Sees the booked appointment*/
-      });
+  it("should edit an interview", () => {
+    cy.get("[alt=Edit]")
+      .first()
+      .click({ force: true })
+    cy.get("[data-testid=student-name-input]")
+      .clear()
+      .type("Lydia Miller-Jones");
+    cy.get("[alt='Tori Malcolm']")
+      .click();
+    cy.contains("Save")
+      .click();
+    cy.contains(".appointment__card--show", "Lydia Miller-Jones");
+    cy.contains(".appointment__card--show", "Tori Malcolm");
+  });
     
-      it("should edit an interview", () => {
 
-      cy.get("[alt=Edit]")
-        .first()
-        .click({ force: true })
-      cy.get("[data-testid=student-name-input]")
-        .clear()
-        .type("Lydia Miller-Jones");
-      cy.get("[alt='Tori Malcolm']")
-        .click();
-      cy.contains("Save")
-        .click();
-      cy.contains(".appointment__card--show", "Lydia Miller-Jones");
-      cy.contains(".appointment__card--show", "Tori Malcolm");
-    
-      });
-    
-      xit("should cancel an interview", () => {
-    /* Visits the root of our web server
-    Clicks the delete button for the existing appointment
-    Clicks the confirm button
-    Sees that the appointment slot is empty*/
-      });
+  it("should cancel an interview", () => {
+    cy.get("[alt=Delete]")
+      .click({ force: true });
+    cy.contains("Confirm")
+      .click();
+    cy.contains(/deleting/i)
+      .should("exist");
+    cy.contains(/deleting/i)
+      .should("not.exist");
+    cy.contains(".appointment__card--show", "Archie Cohen")
+      .should("not.exist");
+  });
 
 
 });
