@@ -75,7 +75,15 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
   });
 
   xit("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
-    
+    //1. Render the application
+    //2. Wait until the text "Archie Cohen" is displayed
+    //3. Click the edit button on the first full appointment 
+    //4. enter the name "Lydia Miller-Jones" into the input with text "Archie Cohen"
+    //5. click the first interviewer on the list
+    //6. click the "save" button on that same appointment
+    //7. check that the element with the text "saving" is displayed
+    //8. wait until the element with the text "Lydia Miller-Jones" is displayed
+    //9. check that the dayListItem with the text "Monday" also has the text "1 spot remaining"
   });
 
   xit("shows the save error when failing to save an appointment", async () => {
