@@ -14,6 +14,7 @@ import {
   getByDisplayValue 
 } from "@testing-library/react";
 import Application from "components/Application";
+import axios from "axios";
 
 afterEach(cleanup);
 
@@ -122,12 +123,12 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
   expect(getByText(day, /1 spot remaining/i)).toBeInTheDocument();
   });
 
-  xit("shows the save error when failing to save an appointment", async () => {
-    
+  it("shows the save error when failing to save an appointment", async () => {
+    axios.put.mockRejectedValueOnce();
   });
 
   xit("shows the delete error when failing to delete an existing appointment", async () => {
-    
+    axios.delete.mockRejectedValueOnce();
   });
 
 });
