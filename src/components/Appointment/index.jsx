@@ -24,9 +24,11 @@ const ERROR_DELETE = "Could not cancel appointment";
 
 
 export default function Appointment(props) {
+  //deconstruct props passed down from Application component
   const { time, interview, interviewers, bookInterview, cancelInterview } = props;
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
+  //save a created or edited appointment -- passed in as props for click event
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -39,11 +41,12 @@ export default function Appointment(props) {
 
   }
 
-  //delete button on appointment show transitions to confirm component
+  //delete button on appointment SHOW mode, transitions to confirm component
   function del() {
     transition(CONFIRM)
   }
-  //confirm delete cancels interview in remote and local state and transitions to empty
+
+  //confirm delete cancels interview in remote and local state and transitions to EMPTY mode
   function confDelete() {
     transition(DELETING, true)
     cancelInterview(props.id)

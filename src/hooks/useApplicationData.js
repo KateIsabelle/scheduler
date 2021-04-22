@@ -6,7 +6,7 @@ import reducer, {
   SET_INTERVIEW
 } from "../../src/reducers/application";
 
-//separation of state and actions used to change state -- to be used in Application component
+//custom hook -- actions used to change state -- to be used in Application component
 export default function useApplicationData() {
 
 const [state, dispatch] = useReducer(reducer, {

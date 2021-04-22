@@ -2,26 +2,26 @@ import React, { useState } from "react";
 import Button from "../Button";
 import InterviewerList from "../InterviewerList";
 
-//helper function 
-
 export default function Form(props) {
   const { interviewers, onSave, onCancel } = props;
-  
+
+  //state for student name and interviewer in creating or editing an appointment
   const [name, setName] = useState(props.name || "")
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  //error if no interviewer or name is entered before saving appointment
   const [error, setError] = useState("");
 
-  //cancel button onClick:
+  //reset name and interviewer value
   const reset = () => {
     setName("")
     setInterviewer(null)
   }
-
+  //on click cancel button reset values and go back to last mode
   const cancel = () => {
     reset()
     onCancel()
   }
-
+  //on click confirm button, validate that inputs are filled, reset error, and save appointment
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");

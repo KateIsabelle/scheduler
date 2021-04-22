@@ -1,5 +1,6 @@
-export function getAppointmentsForDay(state, day) {
+//functions that accept state as an argument and return data derived from state:
 
+export function getAppointmentsForDay(state, day) {
   //find the object in our state.days array who's name matches the provided day 
   const matchingDay = state.days.filter(d => d.name === day);
   //if matching day is not found, return empty array, else map over appointments array (containing appointment ids)
@@ -10,7 +11,7 @@ export function getAppointmentsForDay(state, day) {
 //update the value of interview object's 'interviewer' key to be an object of interviewer data rather than just their id
 export function getInterview(state, interview) {
   //if there is an interview object passed, return object with student: name
-  //and interview: { interviewer object } containing a shallow copy of this interviewer object (with matching interviewer key) from state
+  //and interview: { interviewer object } containing a shallow copy of this interviewer object from state
   return interview ? {
     student: interview.student,
     interviewer: { ...state.interviewers[interview.interviewer] }
