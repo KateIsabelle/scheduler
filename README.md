@@ -1,5 +1,14 @@
 # Interview Scheduler
 
+Interview Scheduler is a React app that lets users browse days of the week, view, edit, delete existing appointments, and book new appointments in empty slots. 
+
+Visual, unit, integration, and end-to-end testing are performed through Storybook, Jest, and Cypress to achieve full testing coverage. 
+
+
+## Final Product
+
+!["booking an interview on Monday"](#)
+
 ## Setup
 
 Install dependencies with `npm install`.
@@ -21,3 +30,4 @@ npm test
 ```sh
 npm run storybook
 ```
+
