@@ -7,7 +7,7 @@ Visual, unit, integration, and end-to-end testing are performed through Storyboo
 
 ## Final Product
 
-!["booking an interview on Monday"](#)
+!["booking an interview on Monday"](https://github.com/KateIsabelle/scheduler/blob/master/docs/Scheduler-app-booking-appt.png?raw=true)
 
 ## Setup
 
